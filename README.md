@@ -9,7 +9,7 @@ User can register, login and then create and manage his own task notes.
   - [Features](#features)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-  - [Usage](#usage)
+  - [Hierarchy](#hierarchy)
   - [API](#api)
     - [Register User](#register-user)
     - [Login User](#login-user)
@@ -53,9 +53,17 @@ npm install
 npm start
 ```
 
-## Usage
+## Hierarchy
 
-Explain how to use the project. Provide examples or code snippets to illustrate common usage scenarios.
+```
+Project: Todoe-NodeJs-Backend
+│   app.ts
+│   types.d.ts
+├───controllers
+├───middlewares
+├───models
+└───routes
+```
 
 ## API
 
@@ -136,7 +144,7 @@ The project provides the following APIs:
 
 ## Contributing
 
-Explain how others can contribute to the project. Provide guidelines for submitting bug reports, feature requests, or pull requests. Include information on coding conventions, development setup, and testing.
+Anyone is welcome to contribute to the project. 
 
 ## License
 
