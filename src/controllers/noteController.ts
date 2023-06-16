@@ -1,12 +1,19 @@
 import { Request, Response } from 'express';
 import Note from '../models/Note';
+import { AuthenticatedRequest } from '../types';
+
 
 // Create a new note
-export const createNote = async (req: Request, res: Response) => {
+export const createNote = async (req: AuthenticatedRequest, res: Response) => {
   try {
+    const userId = req.user;
     const { title, content } = req.body;
     // Create a new note
-    const note = new Note({ title, content });
+    const note = new Note({
+      title,
+      content,
+      user: userId,
+    });
     await note.save();
     res.status(201).json({ message: 'Note created successfully', note });
   } catch (error) {
@@ -15,16 +22,17 @@ export const createNote = async (req: Request, res: Response) => {
 };
 
 // Get notes with pagination
-export const getNotes = async (req: Request, res: Response) => {
+export const getNotes = async (req: AuthenticatedRequest, res: Response) => {
   try {
+    const user = req.user;
     const { page = 1, limit = 10 } = req.query;
     const options = {
       skip: (parseInt(page as string) - 1) * parseInt(limit as string),
       limit: parseInt(limit as string),
     };
     // Fetch notes with pagination
-    const notes = await Note.find({}, null, options);
-    const total = await Note.countDocuments({});
+    const notes = await Note.find({ user }, null, options);
+    const total = await Note.countDocuments({ user });
     const totalPages = Math.ceil(total / parseInt(limit as string));
     res.status(200).json({ notes, total, totalPages });
   } catch (error) {
@@ -33,13 +41,14 @@ export const getNotes = async (req: Request, res: Response) => {
 };
 
 // Update a note
-export const updateNote = async (req: Request, res: Response) => {
+export const updateNote = async (req: AuthenticatedRequest, res: Response) => {
   try {
+    const user = req.user;
     const { id } = req.params;
     const { title, content } = req.body;
     // Find the note by ID and update it
-    const updatedNote = await Note.findByIdAndUpdate(
-      id,
+    const updatedNote = await Note.findOneAndUpdate(
+      { _id: id, user: user },
       { title, content },
       { new: true }
     );
@@ -53,11 +62,14 @@ export const updateNote = async (req: Request, res: Response) => {
 };
 
 // Delete a note
-export const deleteNote = async (req: Request, res: Response) => {
+export const deleteNote = async (req: AuthenticatedRequest, res: Response) => {
   try {
+    const user = req.user;
     const { id } = req.params;
     // Find the note by ID and delete it
-    const deletedNote = await Note.findByIdAndDelete(id);
+    const deletedNote = await Note.findOneAndDelete(
+      { _id: id, user: user },
+    );
     if (!deletedNote) {
       return res.status(404).json({ message: 'Note not found' });
     }
