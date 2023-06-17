@@ -96,7 +96,7 @@ The project provides the following APIs:
 ### Create a New Note
 
 - Method: POST
-- Endpoint: /
+- Endpoint: /note/
 - Description: Create a new note.
 - Authentication Required: Yes
 - Request Body:
@@ -109,7 +109,7 @@ The project provides the following APIs:
 ### Get Notes
 
 - Method: GET
-- Endpoint: /
+- Endpoint: /note/
 - Description: Get notes with pagination.
 - Authentication Required: Yes
 - Query Parameters:
@@ -122,7 +122,7 @@ The project provides the following APIs:
 ### Update a Note
 
 - Method: PUT
-- Endpoint: /:id
+- Endpoint: /note/:id
 - Description: Update a note by ID.
 - Authentication Required: Yes
 - Request Body:
@@ -135,7 +135,7 @@ The project provides the following APIs:
 ### Delete a Note
 
 - Method: DELETE
-- Endpoint: /:id
+- Endpoint: /note/:id
 - Description: Delete a note by ID.
 - Authentication Required: Yes
 - Response:
